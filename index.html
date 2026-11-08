@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTinvest | InvestTech & Inteligência Artificial</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              950: '#05070b',
+              900: '#0a0d14',
+              850: '#0f1420',
+              800: '#141b2a',
+              700: '#1e293b',
+              accent: '#10b981',
+              cyan: '#06b6d4',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #05070b;
+      color: #f1f5f9;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      overflow-x: hidden;
+    }
+    .ambient-glow {
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.04) 0%, rgba(6, 182, 212, 0.02) 40%, rgba(5, 7, 11, 0) 75%);
+      top: -250px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .card-tech {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-tech:hover {
+      transform: translateY(-3px);
+      background-color: rgba(15, 20, 32, 0.85);
+      border-color: rgba(51, 65, 85, 0.9);
+    }
+  </style>
+
+
+  <!-- Meta Pixel Code (mario_cnpi) -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '825253675478509');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=825253675478509&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-emerald-500 selection:text-slate-950">
+
+  <div class="ambient-glow"></div>
+
+  <!-- HEADER INSTITUCIONAL MINIMALISTA -->
+  <header class="relative z-20 max-w-7xl mx-auto w-full px-6 py-8 flex items-center justify-between">
+    <!-- Canto Esquerdo: Marca CTinvest -->
+    <a href="#" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-slate-900 flex items-center justify-center border border-emerald-500/30 group-hover:border-emerald-400/70 transition-colors">
+        <span class="font-bold text-white text-lg tracking-tighter font-mono">CT</span>
+      </div>
+      <div>
+        <span class="text-xl font-extrabold tracking-tight text-white block">CTinvest</span>
+        <span class="text-[10px] tracking-widest uppercase text-slate-400 font-mono block -mt-1">InvestTech & IA</span>
+      </div>
+    </a>
+
+    <!-- Canto Direito: Acesso Direto LUIGI -->
+    <div>
+      <button onclick="openModal()" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/60 hover:border-slate-500 text-xs font-semibold tracking-wide transition-all shadow-lg shadow-black/40">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Acessar LUIGI</span>
+        <svg class="w-3.5 h-3.5 ml-1 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL INSTITUCIONAL -->
+  <main class="relative z-10 max-w-6xl mx-auto w-full px-6 pt-12 pb-24">
+
+    <!-- HERO SECTION: APRESENTAÇÃO DA EMPRESA -->
+    <div class="text-center max-w-3xl mx-auto mb-20">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-mono text-slate-300 mb-6">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        Ecossistema Tecnológico para Investimentos
+      </div>
+      <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight md:leading-[1.15] mb-6">
+        Tecnologia e Inteligência Artificial Aplicadas ao Mercado Financeiro
+      </h1>
+      <p class="text-base md:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+        A CTinvest desenvolve ferramentas analíticas, sistemas de execução automatizada e algoritmos de apoio à decisão para traders e investidores.
+      </p>
+    </div>
+
+    <!-- NÚCLEO TECNOLÓGICO: LUIGI IA -->
+    <div class="mb-24 rounded-3xl bg-slate-900/40 border border-slate-800/80 p-8 md:p-12 relative overflow-hidden backdrop-blur-sm">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 grid md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-7">
+          <span class="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 px-3 py-1 rounded-md inline-block mb-4">
+            Proprietary AI Engine
+          </span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4 tracking-tight">
+            Luigi: Nosso Motor de Inteligência Artificial
+          </h2>
+          <p class="text-sm md:text-base text-slate-300 leading-relaxed mb-6">
+            O Luigi é a plataforma de processamento quantitativo desenvolvida pela CTinvest. Ele monitora fluxo institucional, confluência estatística e liquidez em tempo real, eliminando a hesitação humana e servindo de esteira tecnológica para todas as nossas soluções.
+          </p>
+          <div class="grid grid-cols-2 gap-4 text-xs font-mono text-slate-300">
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
+              <span class="text-emerald-400 font-bold block mb-1">01. Telemetria de Fluxo</span>
+              Leitura contínua de agressão dos grandes players da B3.
+            </div>
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
+              <span class="text-cyan-400 font-bold block mb-1">02. Controle Estatístico</span>
+              Filtro algorítmico rigoroso de risco e volatilidade.
+            </div>
+          </div>
+        </div>
+        <div class="md:col-span-5 flex flex-col justify-center">
+          <div class="p-6 rounded-2xl bg-slate-950/80 border border-slate-800 text-left">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800 text-xs font-mono text-slate-400">
+              <span>STATUS DO ENGINE</span>
+              <span class="text-emerald-400 flex items-center gap-1.5 font-semibold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> ONLINE
+              </span>
+            </div>
+            <div class="space-y-3 font-mono text-xs text-slate-300 mb-6">
+              <div class="flex justify-between">
+                <span class="text-slate-500">Módulos Conectados:</span>
+                <span>Copy • Indicadores • Copiloto</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">Mercado Principal:</span>
+                <span>Mini-Índice B3 & Forex</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">Supervisão Técnica:</span>
+                <span class="text-slate-200">Mário CNPI</span>
+              </div>
+            </div>
+            <button onclick="openModal()" class="w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs tracking-wide transition-all text-center">
+              Acessar Painel Luigi
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OS 4 PILARES DE SOLUÇÃO DA CTINVEST -->
+    <div class="mb-24">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="text-xs font-mono uppercase tracking-widest text-slate-500 mb-2">Soluções Corporativas</p>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+          O Que a CTinvest Entrega
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- PILAR 1: IA & LUIGI -->
+        <div class="card-tech bg-slate-900/35 border border-slate-800/80 rounded-2xl p-8 backdrop-blur-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-5 font-mono font-bold text-sm">
+              01
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Inteligência Artificial (Luigi)</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-6">
+              Plataforma de inteligência com Copiloto ao vivo para orientação de tomada de decisão, scanner de liquidez e modelos estatísticos preditivos para o investidor.
+            </p>
+          </div>
+          <ul class="text-xs text-slate-400 space-y-2 font-mono pt-4 border-t border-slate-800/60">
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              Copiloto do Trader em tempo real
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              Telemetria de fluxo e confluência
+            </li>
+          </ul>
+        </div>
+
+        <!-- PILAR 2: AUTOMAÇÃO & COPY TRADE -->
+        <div class="card-tech bg-slate-900/35 border border-slate-800/80 rounded-2xl p-8 backdrop-blur-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-5 font-mono font-bold text-sm">
+              02
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Automação & Copy Trade</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-6">
+              Infraestrutura de espelhamento em nuvem das operações validadas pelo Analista Mário CNPI. Execução direta na conta do cliente, sem necessidade de tela.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-800/60 flex items-center justify-between">
+            <ul class="text-xs text-slate-400 space-y-1 font-mono">
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                Custódia no próprio CPF na XP
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                Execução em nuvem (OnTick)
+              </li>
+            </ul>
+            <a href="/copy-b3" class="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1">Conhecer LP ➔</a>
+          </div>
+        </div>
+
+        <!-- PILAR 3: INDICADORES & FERRAMENTAS -->
+        <div class="card-tech bg-slate-900/35 border border-slate-800/80 rounded-2xl p-8 backdrop-blur-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-5 font-mono font-bold text-sm">
+              03
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Indicadores & Ferramentas Analíticas</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-6">
+              Conjunto de ferramentas avançadas, regras de coloração, scanners de oportunidades e painéis de agressão para quem opera ativamente no gráfico.
+            </p>
+          </div>
+          <ul class="text-xs text-slate-400 space-y-2 font-mono pt-4 border-t border-slate-800/60">
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+              Integração nativa com Nelogica (Profit)
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+              Dashboards quantitativos proprietários
+            </li>
+          </ul>
+        </div>
+
+        <!-- PILAR 4: EDUCACIONAL & INTELIGÊNCIA -->
+        <div class="card-tech bg-slate-900/35 border border-slate-800/80 rounded-2xl p-8 backdrop-blur-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-5 font-mono font-bold text-sm">
+              04
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Educação & Inteligência de Mercado</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-6">
+              Formação prática baseada em dados reais, relatórios diários de mercado, controle de perdas e metodologia técnica conduzida por analista certificado.
+            </p>
+          </div>
+          <ul class="text-xs text-slate-400 space-y-2 font-mono pt-4 border-t border-slate-800/60">
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              Metodologia com embasamento profissional
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              Relatórios diários e análises de contexto
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GOVERNANÇA TÉCNICA E PARCEIROS (SEM BARRAS) -->
+    <div class="mb-20">
+      <div class="max-w-3xl mx-auto text-center p-8 rounded-2xl bg-slate-900/25 border border-slate-800/60 mb-14">
+        <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emerald-500/40 mx-auto mb-4">
+          <img src="/assets/mario.jpg" alt="Mário CNPI" class="w-full h-full object-cover">
+        </div>
+        <h3 class="font-bold text-white text-lg mb-1">Mário | Analista CNPI</h3>
+        <p class="text-xs font-mono text-emerald-400 mb-4">Supervisão Técnica Regulamentada (APIMEC / CVM)</p>
+        <p class="text-xs md:text-sm text-slate-300 leading-relaxed max-w-xl mx-auto">
+          A CTinvest opera com governança técnica rigorosa. As estratégias, parâmetros operacionais e limites de risco são validados sob credencial analítica oficial, garantindo integridade e conformidade fiduciária.
+        </p>
+      </div>
+
+      <!-- PARCEIROS HOMOLOGADOS -->
+      <div class="text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-slate-500 mb-6">Ecossistema & Parceiros Integrados</p>
+        <div class="flex flex-wrap items-center justify-center gap-8 md:gap-14 text-slate-400 font-medium text-sm">
+          <span class="hover:text-white transition-colors flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+            XP Investimentos
+          </span>
+          <span class="hover:text-white transition-colors flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+            Nomos Assessoria
+          </span>
+          <span class="hover:text-white transition-colors flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+            OnTick Sync
+          </span>
+          <span class="hover:text-white transition-colors flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+            Nelogica
+          </span>
+          <span class="hover:text-white transition-colors flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+            Tickmill
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- RODAPÉ CORPORATIVO LIMPO -->
+  <footer class="relative z-10 border-t border-slate-800/50 py-10 px-6 bg-slate-950/60">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-500">
+      <div>
+        <p class="font-mono text-slate-400">© 2026 CTinvest. Soluções em Tecnologia Financeira.</p>
+        <p class="text-[11px] mt-1 text-slate-600">Custódia segregada em corretoras parceiras. Rentabilidade passada não representa garantia futura.</p>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="https://wa.me/5531985310062" target="_blank" class="hover:text-emerald-400 transition-colors font-mono">Contato: (31) 98531-0062</a>
+        <button onclick="openModal()" class="hover:text-white transition-colors">Área Logada</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL DE LOGIN / PLATAFORMA LUIGI -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-brand-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 text-sm font-mono">✕</button>
+      
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-xs font-mono text-emerald-400 font-semibold tracking-wider uppercase">Ambiente Seguro</span>
+        </div>
+        <h3 class="text-xl font-bold text-white">Plataforma Luigi</h3>
+        <p class="text-xs text-slate-400 mt-1">Acesso à área logada de telemetria, copiloto e relatórios.</p>
+      </div>
+
+      <form onsubmit="event.preventDefault(); alert('Conectando à plataforma Luigi...');" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">E-mail Cadastrado</label>
+          <input type="email" required placeholder="seu@email.com" class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">Chave / Senha</label>
+          <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+        </div>
+        <button type="submit" class="w-full py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm tracking-wide transition-all shadow-lg shadow-emerald-900/30">
+          Entrar na Plataforma
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-slate-800/80 text-center text-xs text-slate-400">
+        Precisa de suporte ou liberação de acesso? <a href="https://wa.me/5531985310062?text=Olá%20Mário,%20preciso%20de%20suporte%20no%20Luigi" target="_blank" class="text-emerald-400 hover:underline">Fale conosco no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+    function closeModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+    }
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
+</body>
+</html>
