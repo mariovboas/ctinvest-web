@@ -98,13 +98,13 @@
 
     <!-- Canto Direito: Acesso Direto LUIGI -->
     <div>
-      <button onclick="openModal('login')" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/60 hover:border-slate-500 text-xs font-semibold tracking-wide transition-all shadow-lg shadow-black/40">
+      <a data-luigi-login href="https://app.ctinvest.com.br/login" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/60 hover:border-slate-500 text-xs font-semibold tracking-wide transition-all shadow-lg shadow-black/40">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>Acessar LUIGI</span>
         <svg class="w-3.5 h-3.5 ml-1 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
         </svg>
-      </button>
+      </a>
     </div>
   </header>
 
@@ -172,10 +172,10 @@
                 <span class="text-slate-200">Mário CNPI</span>
               </div>
             </div>
-            <button onclick="openModal('login')" class="w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs tracking-wide transition-all text-center">
+            <a data-luigi-login href="https://app.ctinvest.com.br/login" class="block w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs tracking-wide transition-all text-center">
               Acessar Painel Luigi
-            </button>
-            <button onclick="openModal('signup')" class="w-full mt-2 py-2.5 px-4 rounded-xl bg-transparent border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-semibold text-xs tracking-wide transition-all text-center">
+            </a>
+            <button onclick="openModal()" class="w-full mt-2 py-2.5 px-4 rounded-xl bg-transparent border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-semibold text-xs tracking-wide transition-all text-center">
               Criar Conta Gratuita
             </button>
           </div>
@@ -347,12 +347,12 @@
       </div>
       <div class="flex items-center gap-6">
         <a href="https://wa.me/5531985310062" target="_blank" class="hover:text-emerald-400 transition-colors font-mono">Contato: (31) 98531-0062</a>
-        <button onclick="openModal('login')" class="hover:text-white transition-colors">Área Logada</button>
+        <a data-luigi-login href="https://app.ctinvest.com.br/login" class="hover:text-white transition-colors">Área Logada</a>
       </div>
     </div>
   </footer>
 
-  <!-- MODAL DE ACESSO / CADASTRO LUIGI -->
+  <!-- MODAL DE CADASTRO LUIGI -->
   <div id="loginModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-brand-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 relative shadow-2xl max-h-[92vh] overflow-y-auto">
       <button id="authCloseBtn" type="button" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 text-sm font-mono">✕</button>
@@ -362,19 +362,14 @@
           <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
           <span class="text-xs font-mono text-emerald-400 font-semibold tracking-wider uppercase">Ambiente Seguro</span>
         </div>
-        <h3 class="text-xl font-bold text-white">Plataforma Luigi</h3>
-        <p class="text-xs text-slate-400 mt-1">Crie sua conta gratuita ou entre para acessar o workspace.</p>
-      </div>
-
-      <div id="authTabs" class="flex gap-2 p-1 rounded-xl bg-slate-950 border border-slate-800 mb-5">
-        <button id="authTabSignup" type="button" class="flex-1 py-2.5 text-xs font-semibold rounded-lg text-slate-300 hover:text-white transition-all">Criar Conta Gratuita</button>
-        <button id="authTabLogin" type="button" class="flex-1 py-2.5 text-xs font-bold rounded-lg bg-emerald-500 text-slate-950 transition-all">Entrar</button>
+        <h3 class="text-xl font-bold text-white">Criar conta gratuita no Luigi</h3>
+        <p id="authModalSubtitle" class="text-xs text-slate-400 mt-1">Crie sua conta gratuita para acessar o workspace.</p>
       </div>
 
       <div id="authAlert" class="hidden text-xs rounded-lg px-3 py-2 border mb-4"></div>
 
       <!-- SIGNUP -->
-      <div id="authPanelSignup" class="hidden space-y-4">
+      <div id="authPanelSignup" class="space-y-4">
         <form id="signupForm" class="space-y-4" novalidate>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
@@ -424,57 +419,10 @@
             Criar minha conta gratuita
           </button>
         </form>
-      </div>
 
-      <!-- LOGIN -->
-      <div id="authPanelLogin" class="space-y-4">
-        <form id="loginForm" class="space-y-4" novalidate>
-          <div>
-            <label class="block text-xs font-mono text-slate-300 mb-1" for="loginEmail">E-mail</label>
-            <input id="loginEmail" name="email" type="email" required autocomplete="email" class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors" placeholder="seu@email.com">
-          </div>
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label class="block text-xs font-mono text-slate-300" for="loginPassword">Senha</label>
-              <a id="linkForgotPassword" href="#" class="text-[11px] text-emerald-400 hover:underline">Esqueci minha senha</a>
-            </div>
-            <div class="relative">
-              <input id="loginPassword" name="password" type="password" required autocomplete="current-password" class="w-full px-4 py-2.5 pr-20 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors" placeholder="••••••••">
-              <button id="toggleLoginPassword" type="button" class="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-semibold text-slate-400 hover:text-white px-2 py-1">Mostrar</button>
-            </div>
-          </div>
-
-          <div id="loginUnconfirmedBox" class="hidden rounded-lg border border-amber-800 bg-amber-950/30 p-3 space-y-2">
-            <p class="text-xs text-amber-200">E-mail ainda não confirmado. Reenvie o link para liberar o acesso.</p>
-            <button id="btnResendFromLogin" type="button" class="w-full py-2 rounded-lg border border-amber-700 text-amber-100 text-xs font-semibold hover:bg-amber-900/40 transition-all">
-              Reenviar e-mail de confirmação
-            </button>
-          </div>
-
-          <button id="btnLoginSubmit" type="submit" class="w-full py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm tracking-wide transition-all shadow-lg shadow-emerald-900/30">
-            Entrar
-          </button>
-        </form>
         <p class="text-center text-xs text-slate-400">
-          Ainda não tem conta?
-          <button type="button" onclick="openModal('signup')" class="text-emerald-400 hover:underline font-semibold">Criar Conta Gratuita</button>
-        </p>
-      </div>
-
-      <!-- RECOVER -->
-      <div id="authPanelRecover" class="hidden space-y-4">
-        <form id="recoverForm" class="space-y-4" novalidate>
-          <p class="text-xs text-slate-400">Informe o e-mail cadastrado para receber o link de redefinição de senha.</p>
-          <div>
-            <label class="block text-xs font-mono text-slate-300 mb-1" for="recoverEmail">E-mail</label>
-            <input id="recoverEmail" name="email" type="email" required autocomplete="email" class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors" placeholder="seu@email.com">
-          </div>
-          <button id="btnRecoverSubmit" type="submit" class="w-full py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm tracking-wide transition-all">
-            Enviar link de redefinição
-          </button>
-        </form>
-        <p class="text-center text-xs text-slate-400">
-          <a id="linkBackLogin" href="#" class="text-emerald-400 hover:underline">Voltar para Entrar</a>
+          Já tem conta?
+          <a data-luigi-login href="https://app.ctinvest.com.br/login" class="text-emerald-400 hover:underline font-semibold">Entrar no Luigi →</a>
         </p>
       </div>
 
@@ -496,7 +444,8 @@
           Reenviar e-mail de confirmação
         </button>
         <p class="text-xs text-slate-400">
-          Já confirmou? <a id="linkConfirmToLogin" href="#" class="text-emerald-400 hover:underline font-semibold">Fazer login</a>
+          Já tem conta?
+          <a data-luigi-login href="https://app.ctinvest.com.br/login" class="text-emerald-400 hover:underline font-semibold">Entrar no Luigi →</a>
         </p>
       </div>
 

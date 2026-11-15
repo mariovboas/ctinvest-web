@@ -9,7 +9,6 @@
   ];
 
   var supabaseClient = null;
-  var currentMode = 'login';
   var selectedInterest = '';
   var pendingConfirmEmail = '';
   var resendCooldownUntil = 0;
@@ -17,6 +16,10 @@
 
   function $(id) {
     return document.getElementById(id);
+  }
+
+  function loginUrl() {
+    return window.LUIGI_APP_LOGIN_URL || 'https://app.ctinvest.com.br/login';
   }
 
   function configReady() {
@@ -82,43 +85,23 @@
     }
   }
 
-  function showPanel(id) {
-    ['authPanelSignup', 'authPanelLogin', 'authPanelRecover', 'authPanelConfirm'].forEach(function (panelId) {
-      var panel = $(panelId);
-      if (!panel) return;
-      panel.classList.toggle('hidden', panelId !== id);
-    });
-  }
-
-  function updateTabs() {
-    var tabSignup = $('authTabSignup');
-    var tabLogin = $('authTabLogin');
-    var tabsWrap = $('authTabs');
-    if (!tabSignup || !tabLogin || !tabsWrap) return;
-
-    if (currentMode === 'confirm') {
-      tabsWrap.classList.add('hidden');
-      return;
+  function showPanel(mode) {
+    var signup = $('authPanelSignup');
+    var confirm = $('authPanelConfirm');
+    var headerSub = $('authModalSubtitle');
+    if (signup) signup.classList.toggle('hidden', mode !== 'signup');
+    if (confirm) confirm.classList.toggle('hidden', mode !== 'confirm');
+    if (headerSub) {
+      headerSub.textContent = mode === 'confirm'
+        ? 'Quase lá — confirme o e-mail para ativar o acesso.'
+        : 'Crie sua conta gratuita para acessar o workspace.';
     }
-    tabsWrap.classList.remove('hidden');
-
-    var signupActive = currentMode === 'signup';
-    tabSignup.className = signupActive
-      ? 'flex-1 py-2.5 text-xs font-bold rounded-lg bg-emerald-500 text-slate-950 transition-all'
-      : 'flex-1 py-2.5 text-xs font-semibold rounded-lg text-slate-300 hover:text-white transition-all';
-    tabLogin.className = !signupActive && currentMode !== 'recover'
-      ? 'flex-1 py-2.5 text-xs font-bold rounded-lg bg-emerald-500 text-slate-950 transition-all'
-      : 'flex-1 py-2.5 text-xs font-semibold rounded-lg text-slate-300 hover:text-white transition-all';
   }
 
-  function setMode(mode) {
-    currentMode = mode || 'login';
-    setAlert('');
-    if (currentMode === 'signup') showPanel('authPanelSignup');
-    else if (currentMode === 'recover') showPanel('authPanelRecover');
-    else if (currentMode === 'confirm') showPanel('authPanelConfirm');
-    else showPanel('authPanelLogin');
-    updateTabs();
+  function interestChipClass(active) {
+    return active
+      ? 'px-3 py-2 rounded-full text-[11px] font-semibold border border-emerald-500/60 bg-emerald-500/15 text-emerald-300 transition-all'
+      : 'px-3 py-2 rounded-full text-[11px] font-semibold border border-slate-700 bg-slate-950 text-slate-300 hover:border-slate-500 transition-all';
   }
 
   function renderInterestChips() {
@@ -136,12 +119,6 @@
       });
       wrap.appendChild(btn);
     });
-  }
-
-  function interestChipClass(active) {
-    return active
-      ? 'px-3 py-2 rounded-full text-[11px] font-semibold border border-emerald-500/60 bg-emerald-500/15 text-emerald-300 transition-all'
-      : 'px-3 py-2 rounded-full text-[11px] font-semibold border border-slate-700 bg-slate-950 text-slate-300 hover:border-slate-500 transition-all';
   }
 
   function togglePasswordVisibility(inputId, btnId) {
@@ -187,26 +164,21 @@
     pendingConfirmEmail = email;
     var emailEl = $('confirmEmailText');
     if (emailEl) emailEl.textContent = email;
-    setMode('confirm');
+    setAlert('');
+    showPanel('confirm');
     startResendCooldown(30);
   }
 
   function translateAuthError(error) {
     var msg = (error && (error.message || error.error_description || error.msg)) || '';
     var lower = String(msg).toLowerCase();
-    if (lower.indexOf('email not confirmed') !== -1) {
-      return { type: 'unconfirmed', text: 'Seu e-mail ainda não foi confirmado. Abra o link enviado ou reenvie a confirmação.' };
-    }
-    if (lower.indexOf('invalid login credentials') !== -1 || lower.indexOf('invalid credentials') !== -1) {
-      return { type: 'invalid', text: 'E-mail ou senha inválidos. Verifique os dados e tente novamente.' };
-    }
     if (lower.indexOf('user already registered') !== -1) {
-      return { type: 'exists', text: 'Este e-mail já possui cadastro. Faça login ou recupere sua senha.' };
+      return 'Este e-mail já possui cadastro. Entre no Luigi com sua conta.';
     }
     if (lower.indexOf('password') !== -1 && lower.indexOf('least') !== -1) {
-      return { type: 'password', text: 'A senha deve ter pelo menos 8 caracteres.' };
+      return 'A senha deve ter pelo menos 8 caracteres.';
     }
-    return { type: 'generic', text: msg || 'Não foi possível concluir a solicitação. Tente novamente.' };
+    return msg || 'Não foi possível concluir a solicitação. Tente novamente.';
   }
 
   async function handleSignup(event) {
@@ -251,7 +223,7 @@
         email: email.trim(),
         password: password,
         options: {
-          emailRedirectTo: window.LUIGI_APP_LOGIN_URL,
+          emailRedirectTo: loginUrl(),
           data: {
             first_name: firstName.trim(),
             last_name: lastName.trim(),
@@ -267,97 +239,13 @@
       });
 
       if (signupResult.error) {
-        var mappedSignup = translateAuthError(signupResult.error);
-        setAlert(mappedSignup.text, 'error');
+        setAlert(translateAuthError(signupResult.error), 'error');
         return;
       }
 
-      // Mesmo sem sessão imediata (confirmação por e-mail), seguimos para a tela de confirmação.
       showConfirmScreen(email.trim());
     } catch (err) {
       setAlert(err.message || 'Erro ao criar conta.', 'error');
-    } finally {
-      setLoading(btn, false);
-    }
-  }
-
-  async function handleLogin(event) {
-    event.preventDefault();
-    setAlert('');
-
-    var email = ($('loginEmail') || {}).value || '';
-    var password = ($('loginPassword') || {}).value || '';
-    var btn = $('btnLoginSubmit');
-    var unconfirmedBox = $('loginUnconfirmedBox');
-    if (unconfirmedBox) unconfirmedBox.classList.add('hidden');
-
-    if (!email.trim() || !password) {
-      setAlert('Informe e-mail e senha.', 'error');
-      return;
-    }
-
-    try {
-      setLoading(btn, true, 'Entrando...');
-      var client = ensureClient();
-      var loginResult = await client.auth.signInWithPassword({
-        email: email.trim(),
-        password: password
-      });
-
-      if (loginResult.error) {
-        var mappedLogin = translateAuthError(loginResult.error);
-        if (mappedLogin.type === 'unconfirmed') {
-          pendingConfirmEmail = email.trim();
-          setAlert(mappedLogin.text, 'warn');
-          if (unconfirmedBox) unconfirmedBox.classList.remove('hidden');
-          return;
-        }
-        setAlert(mappedLogin.text, 'error');
-        return;
-      }
-
-      if (loginResult.data && loginResult.data.session) {
-        var redirect =
-          window.LUIGI_APP_HOME_URL +
-          '#access_token=' + encodeURIComponent(loginResult.data.session.access_token) +
-          '&refresh_token=' + encodeURIComponent(loginResult.data.session.refresh_token) +
-          '&token_type=bearer&type=signup';
-        window.location.href = redirect;
-        return;
-      }
-
-      setAlert('Login realizado, mas a sessão não foi retornada. Confirme o e-mail e tente novamente.', 'warn');
-    } catch (err) {
-      setAlert(err.message || 'Erro ao entrar.', 'error');
-    } finally {
-      setLoading(btn, false);
-    }
-  }
-
-  async function handleRecover(event) {
-    event.preventDefault();
-    setAlert('');
-    var email = ($('recoverEmail') || {}).value || '';
-    var btn = $('btnRecoverSubmit');
-
-    if (!email.trim()) {
-      setAlert('Informe o e-mail cadastrado.', 'error');
-      return;
-    }
-
-    try {
-      setLoading(btn, true, 'Enviando...');
-      var client = ensureClient();
-      var recoverResult = await client.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: window.LUIGI_APP_LOGIN_URL
-      });
-      if (recoverResult.error) {
-        setAlert(translateAuthError(recoverResult.error).text, 'error');
-        return;
-      }
-      setAlert('Enviamos um link de redefinição para ' + email.trim() + '. Verifique sua caixa de entrada e o spam.', 'success');
-    } catch (err) {
-      setAlert(err.message || 'Erro ao enviar redefinição.', 'error');
     } finally {
       setLoading(btn, false);
     }
@@ -375,10 +263,10 @@
       var resendResult = await client.auth.resend({
         type: 'signup',
         email: pendingConfirmEmail,
-        options: { emailRedirectTo: window.LUIGI_APP_LOGIN_URL }
+        options: { emailRedirectTo: loginUrl() }
       });
       if (resendResult.error) {
-        setAlert(translateAuthError(resendResult.error).text, 'error');
+        setAlert(translateAuthError(resendResult.error), 'error');
         return;
       }
       setAlert('E-mail de confirmação reenviado para ' + pendingConfirmEmail + '.', 'success');
@@ -388,12 +276,13 @@
     }
   }
 
-  function openModal(mode) {
+  function openModal() {
     var modal = $('loginModal');
     if (!modal) return;
     modal.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
-    setMode(mode === 'signup' ? 'signup' : mode === 'recover' ? 'recover' : 'login');
+    setAlert('');
+    showPanel('signup');
   }
 
   function closeModal() {
@@ -402,8 +291,13 @@
     modal.classList.add('hidden');
     document.body.classList.remove('overflow-hidden');
     setAlert('');
-    var unconfirmedBox = $('loginUnconfirmedBox');
-    if (unconfirmedBox) unconfirmedBox.classList.add('hidden');
+  }
+
+  function bindExistingLoginLinks() {
+    var href = loginUrl();
+    document.querySelectorAll('[data-luigi-login]').forEach(function (el) {
+      if (el.tagName === 'A') el.setAttribute('href', href);
+    });
   }
 
   function bindEvents() {
@@ -417,43 +311,11 @@
     var closeBtn = $('authCloseBtn');
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
-    var tabSignup = $('authTabSignup');
-    var tabLogin = $('authTabLogin');
-    if (tabSignup) tabSignup.addEventListener('click', function () { setMode('signup'); });
-    if (tabLogin) tabLogin.addEventListener('click', function () { setMode('login'); });
-
-    var toRecover = $('linkForgotPassword');
-    if (toRecover) toRecover.addEventListener('click', function (e) {
-      e.preventDefault();
-      setMode('recover');
-    });
-
-    var backLogin = $('linkBackLogin');
-    if (backLogin) backLogin.addEventListener('click', function (e) {
-      e.preventDefault();
-      setMode('login');
-    });
-
-    var confirmToLogin = $('linkConfirmToLogin');
-    if (confirmToLogin) confirmToLogin.addEventListener('click', function (e) {
-      e.preventDefault();
-      setMode('login');
-    });
-
     var signupForm = $('signupForm');
     if (signupForm) signupForm.addEventListener('submit', handleSignup);
 
-    var loginForm = $('loginForm');
-    if (loginForm) loginForm.addEventListener('submit', handleLogin);
-
-    var recoverForm = $('recoverForm');
-    if (recoverForm) recoverForm.addEventListener('submit', handleRecover);
-
     var resendBtn = $('btnResendConfirm');
     if (resendBtn) resendBtn.addEventListener('click', handleResendConfirm);
-
-    var resendFromLogin = $('btnResendFromLogin');
-    if (resendFromLogin) resendFromLogin.addEventListener('click', handleResendConfirm);
 
     var whatsapp = $('signupWhatsapp');
     if (whatsapp) {
@@ -468,23 +330,16 @@
         togglePasswordVisibility('signupPassword', 'toggleSignupPassword');
       });
     }
-
-    var toggleLoginPass = $('toggleLoginPassword');
-    if (toggleLoginPass) {
-      toggleLoginPass.addEventListener('click', function () {
-        togglePasswordVisibility('loginPassword', 'toggleLoginPassword');
-      });
-    }
   }
 
   window.openModal = openModal;
   window.closeModal = closeModal;
-  window.openAuthSignup = function () { openModal('signup'); };
-  window.openAuthLogin = function () { openModal('login'); };
+  window.openAuthSignup = openModal;
 
   document.addEventListener('DOMContentLoaded', function () {
     renderInterestChips();
     bindEvents();
-    setMode('login');
+    bindExistingLoginLinks();
+    showPanel('signup');
   });
 })();
